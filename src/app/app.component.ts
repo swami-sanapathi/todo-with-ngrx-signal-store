@@ -1,18 +1,14 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { TodoComponent } from './feature/todo-list/todo-list.component';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, RouterOutlet],
-  template: `
-    <h1>Welcome to {{title}}!</h1>
-
-    <router-outlet></router-outlet>
-  `,
-  styles: [],
+	selector: 'app-root',
+	standalone: true,
+	template: ` <app-todo /> `,
+	imports: [CommonModule, RouterOutlet, TodoComponent]
 })
 export class AppComponent {
-  title = 'todo-ngrx-signal-store';
+	title = 'todo-ngrx-signal-store';
 }

@@ -2,4 +2,5 @@
 This is a simple TODO app that uses NgRx Signal Store to manage the state of the application.
 
 ### WIP
-This is a work in progress. The app is not complete yet.
+- Action wise filtering is pending
+- integrate ngrx/signal store

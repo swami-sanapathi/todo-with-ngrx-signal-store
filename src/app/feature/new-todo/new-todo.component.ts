@@ -1,8 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { Todo } from '../../shared/todo';
 
 @Component({
 	standalone: true,
 	selector: 'app-new-todo',
-	template: ``
+	template: `<input
+		class="new-todo"
+		placeholder="What needs to be done?"
+		#task
+		autofocus
+		(keyup.enter)="addTodo(task.value); task.value = ''"
+	/>`
 })
-export class NewTodoComponent {}
+export class NewTodoComponent {
+	@Output() newTodo = new EventEmitter<Todo>();
+
+	addTodo(task: string) {
+		if (!task.trim()) return;
+		console.log('addTodo', task);
+		this.newTodo.emit({ completed: false, task_name: task.trim() } as Todo);
+	}
+}

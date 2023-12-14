@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { TodoFooterComponent } from '../../common/footer.component';
 import { TodoHeaderComponent } from '../../common/header.component';
-import { TodoStore } from '../../store/todo.store';
+import { TodoService } from '../../data-access/todo.service';
 import { TodoComponent } from './todo.component';
 
 @Component({
@@ -16,17 +16,24 @@ import { TodoComponent } from './todo.component';
 				<input id="toggle-all" class="toggle-all" type="checkbox" />
 				<label for="toggle-all">Mark all as complete</label>
 				<ul class="todo-list">
-					@for (item of store(); track item) {
-						<app-todo [task]="item" />
+					@for (item of todoService.todos(); track item) {
+						<app-todo
+							[task]="item"
+							(deleteTodo)="todoService.deleteTodo($event)"
+							(completeTodo)="todoService.completeTask($event)"
+							(updateTodo)="todoService.updateTask($event)"
+						/>
 					}
 				</ul>
 			</section>
 			<!-- This footer should be hidden by default and shown when there are todos -->
 			<app-todo-footer />
 		</section>
-	`,
-	providers: [TodoStore]
+	`
 })
 export class TodoListComponent {
-	store = inject(TodoStore).tasks;
+	todoService = inject(TodoService);
+	constructor() {
+		this.todoService.init();
+	}
 }

@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { TodoService } from '../data-access/todo.service';
+import { NewTodoComponent } from '../feature/new-todo/new-todo.component';
 
 @Component({
 	selector: 'app-todo-header',
@@ -6,8 +8,11 @@ import { Component } from '@angular/core';
 	template: `
 		<header class="header">
 			<h1>todos</h1>
-			<input class="new-todo" placeholder="What needs to be done?" autofocus />
+			<app-new-todo (newTodo)="todoService.addTodo($event)" />
 		</header>
-	`
+	`,
+	imports: [NewTodoComponent]
 })
-export class TodoHeaderComponent {}
+export class TodoHeaderComponent {
+	todoService = inject(TodoService);
+}

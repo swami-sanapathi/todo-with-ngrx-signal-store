@@ -1,9 +1,10 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, computed, signal } from '@angular/core';
 import { Todo } from '../shared/todo';
 
 @Injectable({ providedIn: 'root' })
 export class TodoService {
 	todos = signal<Todo[]>([]);
+	pendingTasks = computed(() => this.todos().filter((t) => !t.completed).length);
 
 	init() {
 		this.todos.set([
@@ -27,9 +28,9 @@ export class TodoService {
 		);
 	}
 
-	updateTask(todo: Todo) {
+	updateTask(task: any) {
 		this.todos.update((todos) =>
-			todos.map((t) => (t.task_name === todo.task_name ? { ...t, task_name: todo.task_name } : t))
+			todos.map((t) => (t.task_name === task.task.task_name ? { ...t, task_name: task.taskName } : t))
 		);
 	}
 }

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { TodoService } from '../data-access/todo.service';
 
 @Component({
 	selector: 'app-todo-footer',
@@ -6,7 +7,9 @@ import { Component } from '@angular/core';
 	template: `
 		<footer class="footer">
 			<!-- This should be 0 items left by default -->
-			<span class="todo-count"><strong>0</strong> item left</span>
+			<span class="todo-count"
+				><strong>{{ todoStore.pendingTasks() }}</strong> item left</span
+			>
 			<!-- Remove this if you don't implement routing -->
 			<ul class="filters">
 				<li>
@@ -24,4 +27,6 @@ import { Component } from '@angular/core';
 		</footer>
 	`
 })
-export class TodoFooterComponent {}
+export class TodoFooterComponent {
+	todoStore = inject(TodoService);
+}

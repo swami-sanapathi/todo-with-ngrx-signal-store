@@ -4,12 +4,8 @@ import { Component } from '@angular/core';
 	selector: 'app-footer',
 	standalone: true,
 	template: ` <footer class="info">
-		<p>Double-click to edit a todo</p>
-		<!-- Remove the below line ↓ -->
-		<p>Template by <a href="http://sindresorhus.com">Sindre Sorhus</a></p>
-		<!-- Change this out with your name and url ↓ -->
-		<p>Created by <a href="http://todomvc.com">you</a></p>
-		<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+		<p>Created by <a href="http://www.github.com/swami-sanapathi">Swami</a></p>
+		<p>Follow me on <a href="http://twitter.com/SwamiSanapathi">twitter</a></p>
 	</footer>`
 })
 export class FooterComponent {}

@@ -9,7 +9,6 @@ import { FooterComponent } from './footer.component';
 		<section class="todoapp">
 			<router-outlet />
 		</section>
-
 		<app-footer />
 	`,
 	imports: [RouterOutlet, FooterComponent]

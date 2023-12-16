@@ -1,12 +1,23 @@
 import { Injectable, computed, signal } from '@angular/core';
-import { Todo } from '../shared/todo';
+import { Todo, TodoFilter } from '../models/todo';
 
 @Injectable({ providedIn: 'root' })
 export class TodoService {
+	filter = signal<TodoFilter>('all');
 	todos = signal<Todo[]>([]);
 	pendingTasks = computed(() => this.todos().filter((t) => !t.completed).length);
+	filteredTodos = computed(() => {
+		switch (this.filter()) {
+			case 'active':
+				return this.todos().filter((t) => !t.completed);
+			case 'completed':
+				return this.todos().filter((t) => t.completed);
+			default:
+				return this.todos();
+		}
+	});
 
-	init() {
+	constructor() {
 		this.todos.set([
 			{ task_name: 'Taste JavaScript', completed: true },
 			{ task_name: 'Buy a unicorn', completed: false }
@@ -32,5 +43,9 @@ export class TodoService {
 		this.todos.update((todos) =>
 			todos.map((t) => (t.task_name === task.task.task_name ? { ...t, task_name: task.taskName } : t))
 		);
+	}
+
+	clearCompleted() {
+		this.todos.update((todos) => todos.filter((t) => !t.completed));
 	}
 }

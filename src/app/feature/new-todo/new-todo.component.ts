@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { Todo } from '../../shared/todo';
+import { Todo } from '../../models/todo';
 
 @Component({
 	standalone: true,

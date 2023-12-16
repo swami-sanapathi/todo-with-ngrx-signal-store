@@ -17,11 +17,9 @@ export class TodoService {
 		}
 	});
 
-	constructor() {
-		this.todos.set([
-			{ task_name: 'Taste JavaScript', completed: true },
-			{ task_name: 'Buy a unicorn', completed: false }
-		]);
+	async init() {
+		const tasks = await fetch('../../assets/tasks.json').then((res) => res.json());
+		this.todos.set(tasks);
 	}
 
 	addTodo(todo: Todo) {

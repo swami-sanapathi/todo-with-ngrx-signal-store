@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TodoFooterComponent } from '../../common/footer.component';
 import { TodoService } from '../../data-access/todo.service';
@@ -36,7 +36,7 @@ import { TodoComponent } from './todo-item.component';
 		}
 	`
 })
-export default class TodoListComponent {
+export default class TodoListComponent implements OnInit {
 	todoService = inject(TodoService);
 	router = inject(ActivatedRoute);
 	@Input() filter: TodoFilter = 'all';
@@ -46,5 +46,8 @@ export default class TodoListComponent {
 			console.log('filter', this.filter);
 			this.todoService.filter.set(this.filter);
 		});
+	}
+	ngOnInit() {
+		this.todoService.init();
 	}
 }

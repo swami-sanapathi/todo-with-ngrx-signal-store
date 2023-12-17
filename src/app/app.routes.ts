@@ -2,11 +2,12 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
 	{
-		path: ':filter',
-		loadComponent: () => import('./todo-list/todo-list.component')
+		path: '',
+		loadChildren: () => import('./todos/todo.routes')
 	},
 	{
 		path: '**',
-		redirectTo: 'all'
+		redirectTo: 'all',
+		pathMatch: 'full'
 	}
 ];

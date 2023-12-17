@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { TodoFooterComponent } from '../common/todo-footer.component';
-import { TodoStore } from '../data-access/todo.store';
+import { TodoService } from '../data-access/todo.service';
 import { TodoFilter } from '../models/todo.model';
 import { NewTodoComponent } from '../new-todo/new-todo.component';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
@@ -9,22 +8,18 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
 @Component({
 	selector: 'app-todo-list',
 	standalone: true,
-	providers: [TodoStore],
+	providers: [TodoService],
 	imports: [TodoFooterComponent, NewTodoComponent, TodoItemComponent],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	template: `
-		@defer (on idle) {
-			<header class="header">
-				<h1>todos</h1>
-				<app-new-todo (newTodo)="todoStore.addTodo($event)" />
-			</header>
-		}
+		<header class="header">
+			<h1>todos</h1>
+			<app-new-todo (newTodo)="todoStore.addTodo($event)" />
+		</header>
 		<section class="main">
-			<input id="toggle-all" class="toggle-all" type="checkbox" />
-			<label for="toggle-all">Mark all as complete</label>
 			<ul class="todo-list">
 				@for (item of todoStore.filteredTodos(); track item) {
-					<app-todo
+					<app-todo-item
 						[task]="item"
 						(deleteTodo)="todoStore.deleteTodo($event)"
 						(completeTodo)="todoStore.completeTask($event)"
@@ -36,19 +31,18 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
 		@if (todoStore.todos().length) {
 			<app-todo-footer
 				[count]="todoStore.pendingTasksCount()"
+				[selectedFilter]="todoStore.filter()"
 				(clearCompletedTasks)="todoStore.clearCompleted()"
 			/>
 		}
 	`
 })
-export default class TodoListComponent implements OnInit {
-	todoStore = inject(TodoStore);
-	router = inject(ActivatedRoute);
+export default class TodoListComponent {
+	todoStore = inject(TodoService);
 	@Input() set filter(filter: TodoFilter) {
 		this.todoStore.changeFilter(filter);
 	}
-
-	ngOnInit() {
+	constructor() {
 		this.todoStore.init();
 	}
 }

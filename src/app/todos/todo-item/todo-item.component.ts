@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { Todo } from '../models/todo.model';
 
 @Component({
-	selector: 'app-todo',
+	selector: 'app-todo-item',
 	standalone: true,
 	imports: [],
 	template: `
@@ -38,7 +38,9 @@ export class TodoItemComponent {
 	@Output() updateTodo = new EventEmitter<{ todo: Todo; task_name: string }>();
 
 	emitUpdatedTask(todo: Todo, task_name: string) {
-		if (task_name.trim() === '' || task_name === todo.task_name) return this.isEditing.set(false);
+		if (task_name.trim() === '' || task_name === todo.task_name) {
+			return this.isEditing.set(false);
+		}
 		this.updateTodo.emit({ todo, task_name });
 		this.isEditing.set(false);
 	}

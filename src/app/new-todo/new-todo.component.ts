@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { Todo } from '../../models/todo';
+import { Todo } from '../models/todo.model';
 
 @Component({
 	standalone: true,
@@ -17,7 +17,6 @@ export class NewTodoComponent {
 
 	addTodo(task: string) {
 		if (!task.trim()) return;
-		console.log('addTodo', task);
 		this.newTodo.emit({ completed: false, task_name: task.trim() } as Todo);
 	}
 }

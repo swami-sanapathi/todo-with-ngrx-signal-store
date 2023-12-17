@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TodoFooterComponent } from '../common/todo-footer.component';
-import { TodoService } from '../data-access/todo.service';
+import { TodoStore } from '../data-access/todo.store';
 import { TodoFilter } from '../models/todo.model';
 import { NewTodoComponent } from '../new-todo/new-todo.component';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
@@ -9,8 +9,7 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
 @Component({
 	selector: 'app-todo-list',
 	standalone: true,
-	providers: [TodoService],
-	// providers: [TodoStore],
+	providers: [TodoStore],
 	imports: [TodoFooterComponent, NewTodoComponent, TodoItemComponent],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	template: `
@@ -43,7 +42,7 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
 	`
 })
 export default class TodoListComponent implements OnInit {
-	todoStore = inject(TodoService);
+	todoStore = inject(TodoStore);
 	router = inject(ActivatedRoute);
 	@Input() set filter(filter: TodoFilter) {
 		this.todoStore.changeFilter(filter);

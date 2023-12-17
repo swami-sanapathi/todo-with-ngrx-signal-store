@@ -1,14 +1,17 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { TodoService } from '../data-access/todo.service';
 
 @Component({
 	selector: 'app-todo-footer',
 	standalone: true,
 	template: `
 		<footer class="footer">
+			<!-- This should be 0 items left by default -->
 			<span class="todo-count"
-				><strong>{{ count }}</strong> items left</span
+				><strong>{{ todoStore.pendingTasks() }}</strong> item left</span
 			>
+			<!-- Remove this if you don't implement routing -->
 			<ul class="filters">
 				<li>
 					<a routerLink="/all" routerLinkActive="selected">All</a>
@@ -20,14 +23,13 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 					<a routerLink="/completed" routerLinkActive="selected">Completed</a>
 				</li>
 			</ul>
-			<button class="clear-completed" (click)="clearCompletedTasks.emit()">Clear completed</button>
+			<!-- Hidden if no completed items are left ↓ -->
+			<button class="clear-completed" (click)="todoStore.clearCompleted()">Clear completed</button>
 		</footer>
 		,
 	`,
 	imports: [RouterLink, RouterLinkActive]
 })
 export class TodoFooterComponent {
-	@Output() clearCompletedTasks = new EventEmitter();
-	@Input() count: number = 0;
-	@Input() completed: boolean = false;
+	todoStore = inject(TodoService);
 }
